@@ -4,8 +4,13 @@ import Budget from "../models/budget.model.js";
 export const getBudgets = async (req, res) => {
   const { month } = req.query;
   try {
-    const budgets = await Budget.find({ userId: req.user.userId, month }).populate('categoryId');
-    res.json(budgets);
+    const budgets = await Budget.find({ userId: req.user.userId }).populate('categoryId');
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Fetch All budgets",
+      result: budgets
+    });
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch budgets', error: err.message });
   }
@@ -38,7 +43,12 @@ export const updateBudget = async (req, res) => {
     );
     if (!updated) return res.status(404).json({ message: 'Budget not found' });
 
-    res.json(updated);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Budget updated successfully",
+      result: updated
+    });
   } catch (err) {
     res.status(500).json({ message: 'Failed to update budget', error: err.message });
   }
@@ -50,7 +60,12 @@ export const deleteBudget = async (req, res) => {
     const deleted = await Budget.findOneAndDelete({ _id: id, userId: req.user.userId });
     if (!deleted) return res.status(404).json({ message: 'Budget not found' });
 
-    res.json({ message: 'Budget deleted' });
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Budget deleted successfully",
+
+    });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete budget', error: err.message });
   }

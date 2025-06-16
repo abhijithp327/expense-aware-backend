@@ -70,7 +70,12 @@ export const getExpenses = async (req, res) => {
       date: { $gte: startOfMonth, $lte: endOfMonth },
     }).populate('categoryId');
 
-    res.json(expenses);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Expenses fetched successfully",
+      result: expenses
+    });
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch expenses', error: err.message });
   }
