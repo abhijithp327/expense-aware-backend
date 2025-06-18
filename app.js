@@ -18,7 +18,10 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: 'https://expense-aware-frontend.vercel.app',
+  credentials: true, 
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
